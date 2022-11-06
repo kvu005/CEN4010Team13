@@ -78,7 +78,6 @@ def book_detail(request, pk):
     if request.method == 'GET':
         book_serializer = BooksSerializer(book)
         return JsonResponse(book_serializer.data)
-
     elif request.method == 'PUT':
         book_data = JSONParser().parse(request)
         book_serializer = BooksSerializer(book, data=book_data)
@@ -92,13 +91,39 @@ def book_detail(request, pk):
         return HttpResponse(status=204)
 
 @csrf_exempt
-def book_features(request,pk):
-    try:
-        book = Books.objects.get(pk=pk)
-    except Books.DoesNotExist:
-        return HttpResponse(status=404)
+def genre(request,feature):
+    try: 
+        book = Books.objects.filter(Genere=feature).values()
+    except:
+         return HttpResponse(status=404)
     if request.method == 'GET':
-       fields = ('Genere')
-       book = Books.objects.all().only(fields)
-       book_serializer = BooksSerializer(book, many=True)
-       return JsonResponse(book_serializer.data, safe=False)
+        book_serializer = BooksSerializer(book, many=True)
+        return HttpResponse(book_serializer)
+
+@csrf_exempt
+def top_seller(request):
+    try: 
+        book = Books.objects.values_list('Title').order_by('-CopiesSold')[:5]
+    except:
+         return HttpResponse(status=404)
+    if request.method == 'GET':
+        book_serializer = BooksSerializer(book, many=True)
+        return HttpResponse(book_serializer)
+
+def rating(request, feature):
+    try:
+        book = Books.objects.filter(AvgRating__gte = feature).order_by('-AvgRating').values()
+    except:
+         return HttpResponse(status=404)
+    if request.method == 'GET':
+        book_serializer = BooksSerializer(book, many=True)
+        return HttpResponse(book_serializer)
+
+def position_book(request, feature):
+    try: 
+        book = Books.objects.all().values()[:feature]
+    except:
+         return HttpResponse(status=404)
+    if request.method == 'GET':
+        book_serializer = BooksSerializer(book, many=True)
+        return HttpResponse(book_serializer)
