@@ -7,5 +7,7 @@ urlpatterns = [
 
     path('book/', views.book_list),
     path('book/<int:pk>/', views.book_detail),
-    path('books/<str:pk>/',views.book_features),
+    path('genre/<str:feature>/',views.genre),
+    path('top_seller/',views.top_seller),
+    path('rating/<int:feature>/',views.rating),
 ]
