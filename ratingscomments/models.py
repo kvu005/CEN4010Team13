@@ -21,8 +21,6 @@ class Books(models.Model):
     AvgRating = models.IntegerField()
     Description = models.TextField()
 
-    def __str__(self):
-        return self.Isbn
 
     class Meta:
         ordering = ['Isbn']
@@ -35,7 +33,7 @@ class Users(models.Model):
     LastName = models.CharField(max_length=100)
     HomeAddress = models.TextField()
 
-    def __stf__(self):
+    def __str__(self):
         return self.UserId
     
     class Meta:
@@ -65,4 +63,4 @@ class Ratings(models.Model):
         return self.RatingId
 
     class Meta:
-        ordering = ['RatingId']
+        ordering = ['Rating']

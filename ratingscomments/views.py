@@ -140,7 +140,7 @@ def comment_list(request):
     
     elif request.method == 'POST':
         comment_data = JSONParser().parse(request)
-        comment_serializer = UsersSerializer(data=comment_data)
+        comment_serializer = CommentsSerializer(data=comment_data)
         if comment_serializer.is_valid():
             comment_serializer.save()
             return JsonResponse(comment_serializer.data, status=201)
@@ -180,7 +180,7 @@ def rating_list(request):
     
     elif request.method == 'POST':
         rating_data = JSONParser().parse(request)
-        rating_serializer = UsersSerializer(data=rating_data)
+        rating_serializer = RatingsSerializer(data=rating_data)
         if rating_serializer.is_valid():
             rating_serializer.save()
             return JsonResponse(rating_serializer.data, status=201)
